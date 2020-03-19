@@ -106,7 +106,7 @@ bool NullOrSpace(char ch){
 }
 
 char * MyStrtok(char *input){
-	char *cursor = NULL, *end;
+	char *cursor, *end;
 	char *res = NULL;
 	bool flag = false;
 	int num = 0;
@@ -143,13 +143,14 @@ static int parse_command(char *command, int *nr_tokens, char *tokens[])
 	 */
 	char *word = NULL;
 	int cnt = 0;
-
 	word = MyStrtok(command);
+	
 	while(true){
 		tokens[cnt] = word;
 		cnt++;
 		word = MyStrtok(NULL);
-		if(word = NULL) break;
+	
+		if(word == NULL) break;
 	}
 	*nr_tokens = cnt;
 
@@ -165,7 +166,6 @@ int main(int argc, char *argv[])
 {
 	char line[MAX_COMMAND] = { '\0' };
 	FILE *input = stdin;
-
 	if (argc == 2) {
 		input = fopen(argv[1], "r");
 		if (!input) {
@@ -173,11 +173,9 @@ int main(int argc, char *argv[])
 			return -EINVAL;
 		}
 	}
-
 	while (fgets(line, sizeof(line), input)) {
 		char *tokens[MAX_NR_TOKENS] = { NULL };
 		int nr_tokens= 0;
-
 		parse_command(line, &nr_tokens, tokens);
 
 		fprintf(stderr, "nr_tokens = %d\n", nr_tokens);
