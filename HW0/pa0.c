@@ -82,7 +82,7 @@
  *	Return 0 after filling in @nr_tokens and @tokens[] properly
  *
  */
-int myStrlen(char *ch){
+int myStrlen(char *ch){			//strlen 함수 구현
 	int res=0;
 	while(ch[res] != '\0'){
 		res++;
@@ -90,19 +90,18 @@ int myStrlen(char *ch){
 	return res;
 }
 void delchar(char* str,char tok) {			//토큰 parameter로 받아서 str에서 지우는
-	for (int i = 0;i < myStrlen(str);i++) {
+	for (int i = 0;i < myStrlen(str);i++) {			
 		if (str[i] == tok) {
 			for (int j = i;j < myStrlen(str);j++) {
 				if (j == myStrlen(str) - 1) {
 					str[j] = '\0';
-						
 				}
 				str[j] = str[j + 1];
 			}
 		}
 	}
 }
-int NumQuote(char *ch){		//Number of Quote in String
+int NumQuote(char *ch){		//문자열에서 따옴표 갯수 반환하는 함수
 	int len = myStrlen(ch);
 	int cnt = 0;
 	for(int i=0;i<len;i++){
@@ -112,37 +111,37 @@ int NumQuote(char *ch){		//Number of Quote in String
 	return cnt;
 }
 
-bool NullOrSpace(char ch){
+bool NullOrSpace(char ch){		//parameter로 받은 문자가 널문자거나 스페이스 인것을 체크해주는 함수
 	if(ch == '\0' || isspace(ch)) return true;
 	return false;
 }
 
-char * MyStrtok(char *input){
-	char *cursor, *end;
-	char *res = NULL;
-	bool flag = false;
-	int num = 0;
+char * MyStrtok(char *input){		//strtok함수 구현
+	char *cursor, *end;		//현재 위치를 알려줄 cursor 변수와 문자열의 끝을 알려주기 위한 변수 end
+	char *res = NULL;		//토큰 짤라내고 짤린 문자열 반환하기 위한 변수
+	bool flag = false;		//따옴표에 있는 스페이스인지 아닌지를 확인하기 위한 부울형 flag 변수
+	int num = 0;			//따옴표의 수를 저장하기 위한 변수
 	
-	if(input != NULL){
-		cursor = input;
-		end = &cursor[myStrlen(input)];
+	if(input != NULL){		//input이 있을 때 
+		cursor = input;		//문자열의 시작 주소를 가져옴
+		end = &cursor[myStrlen(input)];	//문자열의 끝 주소를 저장
 	}
 	
-	if(cursor == NULL || cursor == end) return NULL;
+	if(cursor == NULL || cursor == end) return NULL;	//cursor가 NULL이거나 끝이면 NULL반환
 
-	while(cursor < end && NullOrSpace(*cursor) == true && !flag)
-		*(cursor++) = '\0';
-	res = cursor;
+	while(cursor < end && NullOrSpace(*cursor) == true && !flag)	//cursor가 end위치보다 앞이거나 커서값이 NULL이거나 스페이스이거나 따옴표 안의 스페이스가 아닌 경우
+		*(cursor++) = '\0';		//cursor값을 NULL로 넣어주고 cursor를 다음으로 보내주고 
+	res = cursor;				//떼어낸 문자열을 반환
 
-	while(cursor < end && ( NullOrSpace(*cursor) == false || (flag && num == NumQuote(cursor) ) ) ){
-		if(cursor[0] == '\"'){
-			flag = true;
+	while(cursor < end && ( NullOrSpace(*cursor) == false || (flag && num == NumQuote(cursor) ) ) ){	//따옴표안의 스페이스 이거나 기존에 설정한 Num값과 새로운 Num값이 같을 경우
+		if(cursor[0] == '\"'){		//cursor 부분이 따옴표일 때
+			flag = true;		//flag를 true로 바꿔줌 -> 따옴표가 나왔다는 뜻
 		}
-		num = NumQuote(cursor);
-		cursor++;
+		num = NumQuote(cursor);		//num값 다시 바꿔줌(이는 기존 cursor의 따옴표 개수와 달라질수 있으니 바꿔주는 것)
+		cursor++;			
 	}
-	*cursor = '\0';
-	if(res == cursor) res = NULL;
+	*cursor = '\0';				
+	if(res == cursor) res = NULL;		
 	return res;
 }
 static int parse_command(char *command, int *nr_tokens, char *tokens[])
@@ -155,18 +154,18 @@ static int parse_command(char *command, int *nr_tokens, char *tokens[])
 	 */
 	char *word = NULL;
 	int cnt = 0;
-	word = MyStrtok(command);
+	word = MyStrtok(command);		//구현한 MyStrtok함수로 command 스페이스 기준으로 잘라내기
 	
 	while(true){
-		tokens[cnt] = word;
-		word = MyStrtok(NULL);
+		tokens[cnt] = word;		//잘라낸 문자열 저장
+		word = MyStrtok(NULL);		//NULL을 parameter로 한번 더 잘라줌
 
-		cnt++;
-		if(word == NULL) break;
+		cnt++;			
+		if(word == NULL) break;	
 	}
-	*nr_tokens = cnt;
+	*nr_tokens = cnt;			//토큰 갯수 설정
 
-	for(int i=0;i<cnt;i++){
+	for(int i=0;i<cnt;i++){			//잘라낸 단어들에서 따옴표 제거
 		delchar(tokens[i],'\"');
 	}	
 		
