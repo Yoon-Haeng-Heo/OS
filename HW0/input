@@ -1,0 +1,6 @@
+hello world
+ cp /home/os/2019    /home/os/2020  
+	tar -czf submit.tar.gz pa1.c list.h  hash.c   testcase.c Makefile      shell.c   
+echo 		this	string contains	multiple	tabs		
+	rm -rf sars mers h1n1 "covid 19"
+echo "hello world" "this is a test" "from ajou university" "sce213"
