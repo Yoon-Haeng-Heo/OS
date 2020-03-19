@@ -89,7 +89,19 @@ int myStrlen(char *ch){
 	}
 	return res;
 }
-
+void delchar(char* str,char tok) {			//토큰 parameter로 받아서 str에서 지우는
+	for (int i = 0;i < myStrlen(str);i++) {
+		if (str[i] == tok) {
+			for (int j = i;j < myStrlen(str);j++) {
+				if (j == myStrlen(str) - 1) {
+					str[j] = '\0';
+						
+				}
+				str[j] = str[j + 1];
+			}
+		}
+	}
+}
 int NumQuote(char *ch){		//Number of Quote in String
 	int len = myStrlen(ch);
 	int cnt = 0;
@@ -147,13 +159,17 @@ static int parse_command(char *command, int *nr_tokens, char *tokens[])
 	
 	while(true){
 		tokens[cnt] = word;
-		cnt++;
 		word = MyStrtok(NULL);
-	
+
+		cnt++;
 		if(word == NULL) break;
 	}
 	*nr_tokens = cnt;
 
+	for(int i=0;i<cnt;i++){
+		delchar(tokens[i],'\"');
+	}	
+		
 	return 0;
 }
 
