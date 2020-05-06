@@ -1,0 +1,7 @@
+wc pa1.c
+touch t0
+touch t1
+touch t2
+tar czf touch.tar.gz t0 t1 t2
+timeout 1
+sleep 10

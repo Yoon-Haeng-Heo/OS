@@ -1,0 +1,7 @@
+timeout 10
+./toy sleep 2
+timeout 1
+./toy sleep 5
+sleep 4
+timeout 10
+./toy sleep 5

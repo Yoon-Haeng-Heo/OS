@@ -1,0 +1,5 @@
+for 5 echo hello world
+for 2 for 4 for 7 echo this is a triple nested loop
+cd subdir/a/b
+for 2 cd ..
+/bin/pwd
